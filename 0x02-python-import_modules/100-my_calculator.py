@@ -1,26 +1,23 @@
 #!/usr/bin/python3
 if __name__ == "__main__":
+    from sys import argv
     from calculator_1 import add, sub, mul, div
-    from sys import argv, exit
+    argv = argv[1:]
 
-    num_args = len(argv) - 1
-
-    if num_args != 3:
+    if len(argv) < 3 or len(argv) > 3:
         print("Usage: ./100-my_calculator.py <a> <operator> <b>")
         exit(1)
-
-    a = int(argv[1])
-    b = int(argv[3])
-    op = argv[2]
-
-    if op == '+':
-        print("{} {} {} = {}".format(a, op, b, add(a, b)))
-    elif op == '-':
-        print("{} {} {} = {}".format(a, op, b, sub(a, b)))
-    elif op == '*':
-        print("{} {} {} = {}".format(a, op, b, mul(a, b)))
-    elif op == '/':
-        print("{} {} {} = {}".format(a, op, b, div(a, b)))
-    else:
+    elif argv[1] not in ["+", "-", "*", "/"]:
         print("Unknown operator. Available operators: +, -, * and /")
         exit(1)
+    else:
+        a = int(argv[0])
+        b = int(argv[2])
+        if argv[1] == "+":
+            print("{:d} + {:d} = {:d}".format(a, b, add(a, b)))
+        if argv[1] == "-":
+            print("{:d} - {:d} = {:d}".format(a, b, sub(a, b)))
+        if argv[1] == "*":
+            print("{:d} * {:d} = {:d}".format(a, b, mul(a, b)))
+        if argv[1] == "/":
+            print("{:d} / {:d} = {:d}".format(a, b, div(a, b)))
