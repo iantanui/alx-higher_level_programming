@@ -2,11 +2,20 @@
 -- each record should display `tv_genres.name`
 -- results must be sorted in ascending order of genre name
 -- maximum 2 SELECT statements allowed
-SELECT `name` FROM `tv_genres`
-WHERE `name` NOT IN (
-	SELECT `name` FROM `tv_shows`
-	INNER JOIN `tv_show_genres` ON `tv_shows`.`id` = `tv_show_genres`.`show_id`
-	INNER JOIN `tv_genres` ON `tv_shows_genre`.`genre_id` = `tv_genres`.`id`
-	WHERE `tv_shows`.`title` = "Dexter"
-)
-ORDER BY `name`;
+SELECT DISTINCT `name`
+  FROM `tv_genres` AS g
+       INNER JOIN `tv_show_genres` AS s
+       ON g.`id` = s.`genre_id`
+
+       INNER JOIN `tv_shows` AS t
+       ON s.`show_id` = t.`id`
+       WHERE g.`name` NOT IN
+             (SELECT `name`
+                FROM `tv_genres` AS g
+	             INNER JOIN `tv_show_genres` AS s
+		     ON g.`id` = s.`genre_id`
+
+		     INNER JOIN `tv_shows` AS t
+		     ON s.`show_id` = t.`id`
+		     WHERE t.`title` = "Dexter")
+ ORDER BY g.`name`;
